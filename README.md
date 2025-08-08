@@ -1,1 +1,1 @@
-f
+A simple and intuitive ToDo application designed to help users organize their daily tasks. It allows users to add, edit, delete, and categorize tasks, as well as filter tasks by their category for better task management.
