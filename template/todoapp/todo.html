@@ -21,17 +21,25 @@
                     <input type="text" id="form1" class="form-control" name="task" placeholder="Enter a task here"/>
                   </div>
                 </div>
-  
+                <div class="col-md-4">
+            <select name="category" id="categorySelect" class="form-select">
+              <option value="">Select Category</option>
+              {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.category_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
                 <div class="col-12">
                   <button type="submit" class="btn btn-primary">Add Task</button>
                 </div>
               </form>
-  
+
               <table class="table mb-4">
                 <thead>
                   <tr>
                   
                     <th scope="col">Todo item</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Status</th>
                     <th scope="col">Actions</th>
                   </tr>
@@ -40,6 +48,11 @@
                     {%for i in todo%}
                   <tr>
                     <td>{{i.name}}</td>
+                    {%if i.category.category_name%}
+                    <td>{{i.category.category_name}}</td>
+                    {%else%}
+                     <td>No Category</td> 
+                    {%endif%}
                         {%if i.status%}
                         <td>Completed</td>
                         {%else%}

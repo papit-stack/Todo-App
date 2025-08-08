@@ -2,18 +2,21 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Todo
+from .models import Todo,Category
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required
 def home(request):
     if request.method=="POST":
         task=request.POST.get('task')
-        todo=Todo(user=request.user,name=task)
-        todo.save()
+        category_name = request.POST.get('category')
+        category = Category.objects.get(id=category_name) if category_name else None
+        if task:
+            Todo.objects.create(user=request.user, name=task, category=category)
         return redirect('home')
     all_todo=Todo.objects.filter(user=request.user)
-    return render(request,'todoapp/todo.html',{'todo':all_todo})
+    categories = Category.objects.all()
+    return render(request,'todoapp/todo.html',{'todo':all_todo,'categories':categories})
 
 def register_view(request):
     if request.user.is_authenticated:
