@@ -14,9 +14,13 @@ def home(request):
         if task:
             Todo.objects.create(user=request.user, name=task, category=category)
         return redirect('home')
-    all_todo=Todo.objects.filter(user=request.user)
+    selected_category_id = request.GET.get('filter_category')
+    if selected_category_id:
+        all_todo = Todo.objects.filter(user=request.user, category__id=selected_category_id)
+    else:
+        all_todo = Todo.objects.filter(user=request.user)
     categories = Category.objects.all()
-    return render(request,'todoapp/todo.html',{'todo':all_todo,'categories':categories})
+    return render(request,'todoapp/todo.html',{'todo':all_todo,'categories':categories,'selected_category': int(selected_category_id) if selected_category_id else None,})
 
 def register_view(request):
     if request.user.is_authenticated:

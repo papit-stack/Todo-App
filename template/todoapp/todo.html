@@ -8,8 +8,23 @@
         <div class="col col-lg-9 col-xl-7">
           <div class="card rounded-3">
             <div class="card-body p-4">
-  
+              
               <h4 class="text-center my-3 pb-3">To Do App</h4>
+              <form method="get" class="mb-4">
+  <div class="row g-3 align-items-center">
+    <div class="col-auto">
+      <label for="filterCategory" class="col-form-label">Filter by Category:</label>
+    </div>
+    <div class="col-auto">
+      <select name="filter_category" id="filterCategory" class="form-select" onchange="this.form.submit()">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+          <option value="{{ cat.id }}" {% if selected_category == cat.id %}selected{% endif %}>{{ cat.category_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+</form>
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button class="btn btn-outline-danger">Logout</button>
